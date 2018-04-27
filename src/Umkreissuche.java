@@ -14,10 +14,6 @@ public class Umkreissuche {
         try(Scanner s = new Scanner(
             new File(System.getProperty("user.dir") +path), "UTF-8")) {
             s.useDelimiter("\n");
-
-            //StdDraw.setCanvasSize(1500,980);
-            //StdDraw.setPenRadius(0.01);
-
             switch (DataStructure){
                 case 0:
                     //ArrayList Here
@@ -26,15 +22,8 @@ public class Umkreissuche {
                     while(s.hasNext()){
                         element = s.next();
                         String[] arr = element.split(";");
-                        /*if(arr[3].equals("AIRPORT")){
-                            StdDraw.setPenColor(StdDraw.RED);
-                        }else{
-                            StdDraw.setPenColor(StdDraw.BLUE);
-                        }
-                        StdDraw.point(Double.valueOf(arr[1])/16000,Double.valueOf(arr[2])/10000);*/
                         Ljunctions.add(arr);
                     }
-                    //StdDraw.show();
                     s.close();
                     break;
                 case 1:
