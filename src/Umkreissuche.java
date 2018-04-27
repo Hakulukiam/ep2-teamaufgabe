@@ -1,78 +1,49 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
+/**
+ * Autors:
+ * Mold Florian
+ * Ruckenbauer Markus
+ */
+
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Umkreissuche {
 
-    private ArrayList<String[]> Ljunctions;
-    private Tree Tjunctions;
-    private int DataStructure;
-
-    public Umkreissuche(String path, int DataStructure){
-        try(Scanner s = new Scanner(
-            new File(System.getProperty("user.dir") +path), "UTF-8")) {
-            s.useDelimiter("\n");
-            switch (DataStructure){
-                case 0:
-                    //ArrayList Here
-                    Ljunctions = new ArrayList<>();
-                    String element;
-                    while(s.hasNext()){
-                        element = s.next();
-                        String[] arr = element.split(";");
-                        Ljunctions.add(arr);
-                    }
-                    s.close();
-                    break;
-                case 1:
-                    //2D Tree Here
-                    break;
-                default:
-                    System.err.println("No Valid Data Structure");
-                    System.exit(1);
-            }
-        } catch(FileNotFoundException e) {
-            System.exit(1);
-        }
-    }
-
-    public void printJunctions(){
-        for (String[] element: this.Ljunctions ) {
-            System.out.println(Arrays.toString(element));
-        }
-    }
-
-    public int[] inRange(double[] coords, double radius){
-        int[] inRange = new int[2];
-        double x,y;
-        for (String[] element: this.Ljunctions ) {
-            x = Double.valueOf(element[1]);
-            y = Double.valueOf(element[2]);
-            if(Math.sqrt(Math.pow((coords[0]-x),2)+Math.pow((coords[1]-y),2)) <= radius) {
-                switch (element[3]) {
-                    case "AIRPORT":
-                        inRange[0]++;
+    public Umkreissuche(DataStructure data){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Hello World! What would you like to know?");
+        while(true) {
+            String command;
+            command = scanner.nextLine();
+            if(command.equals("exit"))break;
+            if(!validCommand(command)){
+                System.err.println("I don't know this command...");
+            }else{
+                String[] params = decodeCommand(command);
+                switch (params[0]){
+                    case "Junctions":
+                        int[] inRange = data.inRange(new double[]{Double.valueOf(params[6].split("=")[1]),Double.valueOf(params[7].split("=")[1])},Double.valueOf(params[3]));
+                        System.out.println("Airports: "+inRange[0]+" Trainstations: "+inRange[1]);
                         break;
-                    case "TRAINSTATION":
-                        inRange[1]++;
+                    case "Airports":
+                        System.out.println(data.AwTinRange(15.0,20));
                         break;
                 }
             }
         }
-        return inRange;
+        System.out.print("bye!");
     }
 
-    public int AirportsWithTrainstations(double r, int n){
-        int ret = 0;
-        for (String[] element: this.Ljunctions ) {
-            if(element[3].equals("AIRPORT")){
-                if(this.inRange(new double[]{Double.valueOf(element[1]),Double.valueOf(element[2])}, r)[1] >= n){
-                    ret++;
-                }
-            }
-        }
-        return ret;
+    private static Boolean validCommand(String command){
+        Pattern valid1, valid2;
+        valid1 = Pattern.compile("^Junctions less than [0-9]+[.]?[0-9]* units from x=[0-9]+[.]?[0-9]* y=[0-9]+[.]?[0-9]*$");
+        valid2 = Pattern.compile("^Airports with at least [0-9]+ Trainstations less than [0-9]+[.]?[0-9]* units away$");
+        return valid1.matcher(command).matches() || valid2.matcher(command).matches();
+    }
+
+    private static String[] decodeCommand(String command){
+        //Junctions less than 100.0 units from x=1818.54657 y=5813.29982
+        //Airports with at least 5 Trainstations less than 1.0 units away
+        return command.split(" ");
     }
 }
