@@ -25,16 +25,18 @@ public class QuadTreeDataStructure implements DataStructure{
 
     @Override
     public int[] inRange(double[] coords, double radius) {
+        //TODO
         return new int[2];
     }
 
     @Override
     public int AwTinRange(double r, int n) {
+        //TODO
         return 0;
     }
 
     @Override
     public void printJunctions() {
-
+        //TODO
     }
 }
