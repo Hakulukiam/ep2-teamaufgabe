@@ -4,12 +4,12 @@
  * Ruckenbauer Markus
  */
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ArrayListDataStructure implements DataStructure {
     public String type;
-    private ArrayList<String[]> junctions = new ArrayList<>();
+    private ArrayList<Node> junctions = new ArrayList<>();
 
     public ArrayListDataStructure(String pathtofile) {
         this.type = "ArrayList";
@@ -17,24 +17,16 @@ public class ArrayListDataStructure implements DataStructure {
     }
 
     @Override
-    public Boolean add(String [] input){
-        if(input.length == 4){
-            this.junctions.add(input);
-            return true;
-        }else{
-            return false;
-        }
+    public Boolean add(Node element) {
+        return this.junctions.add(element);
     }
 
     @Override
-    public int[] inRange(double[] coords, double radius) {
+    public int[] inRange(Point2D.Double coords, double radius) {
         int[] inRange = new int[2];
-        double x,y;
-        for (String[] element: this.junctions ) {
-            x = Double.valueOf(element[1]);
-            y = Double.valueOf(element[2]);
-            if(Math.sqrt(Math.pow((coords[0]-x),2)+Math.pow((coords[1]-y),2)) <= radius) {
-                switch (element[3]) {
+        for (Node element : this.junctions) {
+            if (Math.sqrt(Math.pow((coords.x - element.getPos().x), 2) + Math.pow((coords.y - element.getPos().y), 2)) <= radius) {
+                switch (element.getType()) {
                     case "AIRPORT":
                         inRange[0]++;
                         break;
@@ -50,9 +42,9 @@ public class ArrayListDataStructure implements DataStructure {
     @Override
     public int AwTinRange(double r, int n) {
         int ret = 0;
-        for (String[] element: this.junctions ) {
-            if(element[3].equals("AIRPORT")){
-                if(this.inRange(new double[]{Double.valueOf(element[1]),Double.valueOf(element[2])}, r)[1] >= n){
+        for (Node element : this.junctions) {
+            if (element.getType().equals("AIRPORT")) {
+                if (this.inRange(element.getPos(), r)[1] >= n) {
                     ret++;
                 }
             }
@@ -62,8 +54,8 @@ public class ArrayListDataStructure implements DataStructure {
 
     @Override
     public void printJunctions() {
-        for (String[] element: this.junctions ) {
-            System.out.println(Arrays.toString(element));
+        for (Node element : this.junctions) {
+            System.out.println(element.toString());
         }
     }
 }

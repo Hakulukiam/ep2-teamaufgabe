@@ -6,12 +6,12 @@
  */
 
 public class Aufgabe1 {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         String path = "/data/junctions.csv";
 
         ArrayListDataStructure data = new ArrayListDataStructure(path);
 
-        System.out.println("Using "+data.type+" as DataStructure.");
+        System.out.println("Using " + data.type + " as DataStructure.");
 
         new Umkreissuche(data);
     }

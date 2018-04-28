@@ -6,7 +6,7 @@
  */
 
 public class Aufgabe3 {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //Change only these Variables
         String path = "/data/junctions.csv";
         int testsize = 100;
@@ -19,7 +19,7 @@ public class Aufgabe3 {
         ArrayListDataStructure ALdata = new ArrayListDataStructure(path);
         QuadTreeDataStructure QTdata = new QuadTreeDataStructure(path);
 
-        for(int i = 1; i <= testsize; i++) {
+        for (int i = 1; i <= testsize; i++) {
             start = System.nanoTime();
             new Umkreissuche(ALdata, test);
             ALtime = System.nanoTime() - start;
