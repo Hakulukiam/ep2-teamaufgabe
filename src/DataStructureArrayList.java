@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class DataStructureArrayList implements DataStructure {
     public String type;
-    private ArrayList<QuadTreeNode> junctions = new ArrayList<>();
+    private ArrayList<JunctionNode> junctions = new ArrayList<>();
 
     public DataStructureArrayList(String pathtofile) {
         this.type = "ArrayList";
@@ -17,7 +17,7 @@ public class DataStructureArrayList implements DataStructure {
     }
 
     @Override
-    public Boolean add(QuadTreeNode element) {
+    public Boolean add(JunctionNode element) {
         return this.junctions.add(element);
     }
 
@@ -30,7 +30,7 @@ public class DataStructureArrayList implements DataStructure {
     @Override
     public int[] inRange(Point2D.Double coords, double radius) {
         int[] inRange = new int[2];
-        for (QuadTreeNode element : this.junctions) {
+        for (JunctionNode element : this.junctions) {
             if (Math.sqrt(Math.pow((coords.x - element.getPos().x), 2) + Math.pow((coords.y - element.getPos().y), 2)) <= radius) {
                 switch (element.getType()) {
                     case "AIRPORT":
@@ -54,7 +54,7 @@ public class DataStructureArrayList implements DataStructure {
     @Override
     public int AwTinRange(double r, int n) {
         int ret = 0;
-        for (QuadTreeNode element : this.junctions) {
+        for (JunctionNode element : this.junctions) {
             if (element.getType().equals("AIRPORT")) {
                 if (this.inRange(element.getPos(), r)[1] >= n) {
                     ret++;
@@ -69,7 +69,7 @@ public class DataStructureArrayList implements DataStructure {
      */
     @Override
     public void printJunctions() {
-        for (QuadTreeNode element : this.junctions) {
+        for (JunctionNode element : this.junctions) {
             System.out.println(element.toString());
         }
     }

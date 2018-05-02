@@ -28,12 +28,12 @@ public class DataStructureQuadTree implements DataStructure {
     }
 
     /**
-     * Adds QuadTreeNode to QuadTree
+     * Adds JunctionNode to QuadTree
      *
-     * @param element QuadTreeNode
+     * @param element JunctionNode
      */
     @Override
-    public Boolean add(QuadTreeNode element) {
+    public Boolean add(JunctionNode element) {
         this.junctions.add(element);
         return true;
     }
@@ -47,10 +47,10 @@ public class DataStructureQuadTree implements DataStructure {
     @Override
     public int AwTinRange(double r, int n) {
         int ret = 0;
-        List<QuadTreeNode> found = new ArrayList<>();
+        List<JunctionNode> found = new ArrayList<>();
         junctions.traverse(found, junctions);
 
-        for (QuadTreeNode item : found) {
+        for (JunctionNode item : found) {
             if (item.getType().equals("AIRPORT")) {
                 if (this.inRange(item.getPos(), r)[1] >= n) {
                     ret++;
@@ -70,10 +70,10 @@ public class DataStructureQuadTree implements DataStructure {
     public int[] inRange(Point2D.Double coords, double radius) {
         int[] inRange = new int[2];
         QuadTree t = junctions.getInterval(coords, junctions, radius);
-        List<QuadTreeNode> found = new ArrayList<>();
+        List<JunctionNode> found = new ArrayList<>();
         junctions.traverse(found, t, radius, coords);
 
-        for (QuadTreeNode item : found) {
+        for (JunctionNode item : found) {
             if (item.getType().equals("AIRPORT")) {
                 inRange[0]++;
             } else if (item.getType().equals("TRAINSTATION")) {

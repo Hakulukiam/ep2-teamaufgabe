@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public interface DataStructure {
-    Boolean add(QuadTreeNode input);
+    Boolean add(JunctionNode input);
 
     /**
      * Gets Number of Airports and Trainstations in Range radius from Point
@@ -48,7 +48,7 @@ public interface DataStructure {
                 double y = Double.valueOf(s.next());
                 String type = s.next();
 
-                QuadTreeNode element = new QuadTreeNode(new Point2D.Double(x, y), type, value);
+                JunctionNode element = new JunctionNode(new Point2D.Double(x, y), type, value);
                 this.add(element);
             }
             s.close();
