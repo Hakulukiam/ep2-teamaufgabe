@@ -16,8 +16,8 @@ public class Aufgabe3 {
         long start;
         long ALtime;
         long QTtime;
-        ArrayListDataStructure ALdata = new ArrayListDataStructure(path);
-        QuadTreeDataStructure QTdata = new QuadTreeDataStructure(path);
+        DataStructureArrayList ALdata = new DataStructureArrayList(path);
+        DataStructureQuadTree QTdata = new DataStructureQuadTree(path);
 
         for (int i = 1; i <= testsize; i++) {
             start = System.nanoTime();

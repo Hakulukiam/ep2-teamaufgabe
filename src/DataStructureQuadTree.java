@@ -7,7 +7,7 @@ import java.util.List;
  * Mold Florian
  * Ruckenbauer Markus
  */
-public class QuadTreeDataStructure implements DataStructure {
+public class DataStructureQuadTree implements DataStructure {
     /**
      * The Type.
      */
@@ -22,24 +22,24 @@ public class QuadTreeDataStructure implements DataStructure {
      *
      * @param path path
      */
-    public QuadTreeDataStructure(String path) {
+    public DataStructureQuadTree(String path) {
         this.type = "QuadTree";
         this.loadData(path);
     }
 
     /**
-     * Adds Node to QuadTree
+     * Adds QuadTreeNode to QuadTree
      *
-     * @param element Node
+     * @param element QuadTreeNode
      */
     @Override
-    public Boolean add(Node element) {
+    public Boolean add(QuadTreeNode element) {
         this.junctions.add(element);
         return true;
     }
 
     /**
-     * Adds Node to QuadTree
+     * Adds QuadTreeNode to QuadTree
      *
      * @param r radius
      * @param n min
@@ -47,10 +47,10 @@ public class QuadTreeDataStructure implements DataStructure {
     @Override
     public int AwTinRange(double r, int n) {
         int ret = 0;
-        List<Node> found = new ArrayList<>();
+        List<QuadTreeNode> found = new ArrayList<>();
         junctions.traverse(found, junctions);
 
-        for (Node item : found) {
+        for (QuadTreeNode item : found) {
             if (item.getType().equals("AIRPORT")) {
                 if (this.inRange(item.getPos(), r)[1] >= n) {
                     ret++;
@@ -61,7 +61,7 @@ public class QuadTreeDataStructure implements DataStructure {
     }
 
     /**
-     * Adds Node to QuadTree
+     * Adds QuadTreeNode to QuadTree
      *
      * @param coords point
      * @param radius radius
@@ -70,10 +70,10 @@ public class QuadTreeDataStructure implements DataStructure {
     public int[] inRange(Point2D.Double coords, double radius) {
         int[] inRange = new int[2];
         QuadTree t = junctions.getInterval(coords, junctions, radius);
-        List<Node> found = new ArrayList<>();
+        List<QuadTreeNode> found = new ArrayList<>();
         junctions.traverse(found, t, radius, coords);
 
-        for (Node item : found) {
+        for (QuadTreeNode item : found) {
             if (item.getType().equals("AIRPORT")) {
                 inRange[0]++;
             } else if (item.getType().equals("TRAINSTATION")) {

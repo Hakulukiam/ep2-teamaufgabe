@@ -6,7 +6,7 @@ import java.util.List;
  */
 public class QuadTree {
     private Point2D.Double topLeft, botRight; //grenzen dieses knotens
-    private Node n;
+    private QuadTreeNode n;
 
     private QuadTree topLeftTree;
     private QuadTree topRightTree;
@@ -31,54 +31,54 @@ public class QuadTree {
     }
 
     /**
-     * Adds Node to QuadTree
+     * Adds QuadTreeNode to QuadTree
      *
-     * @param node the node
+     * @param quadTreeNode the quadTreeNode
      */
-    public void add(Node node) {
-        if (node == null) return;
-        if (!inBoundary(node.getPos())) return;
+    public void add(QuadTreeNode quadTreeNode) {
+        if (quadTreeNode == null) return;
+        if (!inBoundary(quadTreeNode.getPos())) return;
 
         //cannot be splitted more
         if (Math.abs(topLeft.x - botRight.x) <= 1 && Math.abs(topLeft.y - botRight.y) <= 1) {
             if (this.n == null) {
-                this.n = node;
+                this.n = quadTreeNode;
             }
             return;
         }
 
-        //find the correct sub QuadTree for the node
-        if ((topLeft.x + botRight.x) / 2 >= node.getPos().x) {
-            if ((topLeft.y + botRight.y) / 2 >= node.getPos().y) {
+        //find the correct sub QuadTree for the quadTreeNode
+        if ((topLeft.x + botRight.x) / 2 >= quadTreeNode.getPos().x) {
+            if ((topLeft.y + botRight.y) / 2 >= quadTreeNode.getPos().y) {
                 if (topLeftTree == null) {
                     topLeftTree = new QuadTree(
                             new Point2D.Double(topLeft.x, topLeft.y),
                             new Point2D.Double((topLeft.x + botRight.x) / 2, (topLeft.y + botRight.y) / 2));
                 }
-                topLeftTree.add(node);
+                topLeftTree.add(quadTreeNode);
             } else {
                 if (botLeftTree == null) {
                     botLeftTree = new QuadTree(
                             new Point2D.Double(topLeft.x, (topLeft.y + botRight.y) / 2),
                             new Point2D.Double((topLeft.x + botRight.x) / 2, botRight.y));
                 }
-                botLeftTree.add(node);
+                botLeftTree.add(quadTreeNode);
             }
         } else {
-            if ((topLeft.y + botRight.y) / 2 >= node.getPos().y) {
+            if ((topLeft.y + botRight.y) / 2 >= quadTreeNode.getPos().y) {
                 if (topRightTree == null) {
                     topRightTree = new QuadTree(
                             new Point2D.Double((topLeft.x + botRight.x) / 2, topLeft.y),
                             new Point2D.Double(botRight.x, (topLeft.y + botRight.y) / 2));
                 }
-                topRightTree.add(node);
+                topRightTree.add(quadTreeNode);
             } else {
                 if (botRightTree == null) {
                     botRightTree = new QuadTree(
                             new Point2D.Double((topLeft.x + botRight.x) / 2, (topLeft.y + botRight.y) / 2),
                             new Point2D.Double(botRight.x, botRight.y));
                 }
-                botRightTree.add(node);
+                botRightTree.add(quadTreeNode);
             }
         }
     }
@@ -116,7 +116,7 @@ public class QuadTree {
      *
      * @return the node
      */
-    public Node getNode() {
+    public QuadTreeNode getNode() {
         return n;
     }
 
@@ -165,7 +165,7 @@ public class QuadTree {
      * @param radius the radius
      * @param p      the p
      */
-    public void traverse(List<Node> found, QuadTree tree, double radius, Point2D.Double p) {
+    public void traverse(List<QuadTreeNode> found, QuadTree tree, double radius, Point2D.Double p) {
         if (tree == null) {
             return;
         }
@@ -188,7 +188,7 @@ public class QuadTree {
      * @param found the found
      * @param tree  the tree
      */
-    public void traverse(List<Node> found, QuadTree tree) {
+    public void traverse(List<QuadTreeNode> found, QuadTree tree) {
         if (tree == null) {
             return;
         }
@@ -210,7 +210,7 @@ public class QuadTree {
      * @param p the p
      * @return the node
      */
-    public Node search(Point2D.Double p) {
+    public QuadTreeNode search(Point2D.Double p) {
         if (!inBoundary(p)) return null;
 
         if (this.n != null) {

@@ -1,11 +1,11 @@
 import java.awt.geom.Point2D;
 
-class Node {
+class QuadTreeNode {
     private Point2D.Double pos;
     private String type;
     private String value;
 
-    public Node(Point2D.Double pos, String type, String value) {
+    public QuadTreeNode(Point2D.Double pos, String type, String value) {
         this.pos = pos;
         this.type = type;
         this.value = value;
@@ -25,7 +25,7 @@ class Node {
 
     @Override
     public String toString() {
-        return "Node{" +
+        return "QuadTreeNode{" +
                 "x=" + pos.x + ", y=" + pos.y +
                 ", type='" + type + '\'' +
                 ", value='" + value + '\'' +

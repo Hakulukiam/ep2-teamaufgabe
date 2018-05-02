@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public interface DataStructure {
-    Boolean add(Node input);
+    Boolean add(QuadTreeNode input);
 
     int[] inRange(Point2D.Double coords, double radius);
 
@@ -28,7 +28,7 @@ public interface DataStructure {
                 double y = Double.valueOf(s.next());
                 String type = s.next();
 
-                Node element = new Node(new Point2D.Double(x, y), type, value);
+                QuadTreeNode element = new QuadTreeNode(new Point2D.Double(x, y), type, value);
                 this.add(element);
             }
             s.close();
