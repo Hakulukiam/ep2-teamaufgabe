@@ -12,12 +12,32 @@ import java.util.Scanner;
 public interface DataStructure {
     Boolean add(QuadTreeNode input);
 
+    /**
+     * Gets Number of Airports and Trainstations in Range radius from Point
+     *
+     * @param coords point
+     * @param radius radius
+     */
     int[] inRange(Point2D.Double coords, double radius);
 
+    /**
+     * Calculates Number of Airports with >=n Trainstations in Range of r
+     *
+     * @param r Range arround Airport
+     * @param n Number of Trainstations
+     */
     int AwTinRange(double r, int n);
 
+    /**
+     * Prints Junctions in Datastructure
+     */
     void printJunctions();
 
+    /**
+     * Loads junctions.csv into DataStructure
+     *
+     * @param path Path to junctions.csv
+     */
     default void loadData(String path) {
         try (Scanner s = new Scanner(new File(System.getProperty("user.dir") + path), "UTF-8")) {
             s.useDelimiter(";|\r\n");

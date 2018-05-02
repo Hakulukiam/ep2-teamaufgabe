@@ -21,6 +21,12 @@ public class DataStructureArrayList implements DataStructure {
         return this.junctions.add(element);
     }
 
+    /**
+     * Gets Number of Airports and Trainstations in Range radius from Point
+     *
+     * @param coords point
+     * @param radius radius
+     */
     @Override
     public int[] inRange(Point2D.Double coords, double radius) {
         int[] inRange = new int[2];
@@ -39,6 +45,12 @@ public class DataStructureArrayList implements DataStructure {
         return inRange;
     }
 
+    /**
+     * Calculates Number of Airports with >=n Trainstations in Range of r
+     *
+     * @param r Range arround Airport
+     * @param n Number of Trainstations
+     */
     @Override
     public int AwTinRange(double r, int n) {
         int ret = 0;
@@ -52,6 +64,9 @@ public class DataStructureArrayList implements DataStructure {
         return ret;
     }
 
+    /**
+     * Prints Junctions in Datastructure
+     */
     @Override
     public void printJunctions() {
         for (QuadTreeNode element : this.junctions) {

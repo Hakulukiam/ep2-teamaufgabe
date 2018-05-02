@@ -61,6 +61,12 @@ public class Umkreissuche {
         }
     }
 
+    /**
+     * Validates Command with Regex
+     *
+     * @param command Command from input
+     * @return true if command is valid
+     */
     private Boolean validCommand(String command) {
         Pattern valid1, valid2;
         valid1 = Pattern.compile("^Junctions less than [0-9]+[.]?[0-9]* units from x=[0-9]+[.]?[0-9]* y=[0-9]+[.]?[0-9]*$");
@@ -68,6 +74,12 @@ public class Umkreissuche {
         return valid1.matcher(command).matches() || valid2.matcher(command).matches();
     }
 
+    /**
+     * Spits Command in components
+     *
+     * @param command Input from Commandline
+     * @return Array with command components
+     */
     private String[] decodeCommand(String command) {
         return command.split(" ");
     }

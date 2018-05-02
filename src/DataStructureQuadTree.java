@@ -39,10 +39,10 @@ public class DataStructureQuadTree implements DataStructure {
     }
 
     /**
-     * Adds QuadTreeNode to QuadTree
+     * Calculates Number of Airports with >=n Trainstations in Range of r
      *
-     * @param r radius
-     * @param n min
+     * @param r Range arround Airport
+     * @param n Number of Trainstations
      */
     @Override
     public int AwTinRange(double r, int n) {
@@ -61,7 +61,7 @@ public class DataStructureQuadTree implements DataStructure {
     }
 
     /**
-     * Adds QuadTreeNode to QuadTree
+     * Gets Number of Airports and Trainstations in Range radius from Point
      *
      * @param coords point
      * @param radius radius
@@ -85,7 +85,7 @@ public class DataStructureQuadTree implements DataStructure {
     }
 
     /**
-     * prints the tree
+     * Prints Junctions in Datastructure
      */
     @Override
     public void printJunctions() {
