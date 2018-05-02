@@ -1,5 +1,3 @@
-import java.awt.geom.Point2D;
-
 /**
  * Test QuadTree
  * Autors:
@@ -12,7 +10,6 @@ public class Aufgabe2 {
         String path = "/data/junctions.csv";
 
         DataStructureQuadTree data = new DataStructureQuadTree(path);
-        int[] res = data.inRange(new Point2D.Double(1818.54657, 5813.29982), 100);
         System.out.println("Using " + data.type + " as DataStructure.");
 
         new Umkreissuche(data);

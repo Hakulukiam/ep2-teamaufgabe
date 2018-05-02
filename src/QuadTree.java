@@ -14,7 +14,6 @@ public class QuadTree {
     private QuadTree botLeftTree;
     private QuadTree botRightTree;
 
-
     /**
      * Instantiates a new Quad tree.
      *
@@ -41,7 +40,7 @@ public class QuadTree {
         if (!inBoundary(junctionNode.getPos())) return;
 
         //cannot be splitted more
-        if (Math.abs(topLeft.x - botRight.x) <= 1 && Math.abs(topLeft.y - botRight.y) <= 1) {
+        if (Math.abs(topLeft.x - botRight.x) <= 0.0001 && Math.abs(topLeft.y - botRight.y) <= 0.0001) {
             if (this.n == null) {
                 this.n = junctionNode;
             }
@@ -49,8 +48,8 @@ public class QuadTree {
         }
 
         //find the correct sub QuadTree for the junctionNode
-        if (Double.compare((topLeft.x + botRight.x) / 2, junctionNode.getPos().x) >= 0) {
-            if (Double.compare((topLeft.y + botRight.y) / 2, junctionNode.getPos().y) >= 0) {
+        if (Double.compare((topLeft.x + botRight.x) / 2, junctionNode.getX()) >= 0) { //horziontal mid
+            if (Double.compare((topLeft.y + botRight.y) / 2, junctionNode.getY()) >= 0) { //vertical mid
                 if (topLeftTree == null) {
                     topLeftTree = new QuadTree(
                             new Point2D.Double(topLeft.x, topLeft.y),
@@ -66,7 +65,7 @@ public class QuadTree {
                 botLeftTree.add(junctionNode);
             }
         } else {
-            if (Double.compare((topLeft.y + botRight.y) / 2, junctionNode.getPos().y) >= 0) {
+            if (Double.compare((topLeft.y + botRight.y) / 2, junctionNode.getY()) >= 0) { //vertical mid
                 if (topRightTree == null) {
                     topRightTree = new QuadTree(
                             new Point2D.Double((topLeft.x + botRight.x) / 2, topLeft.y),
@@ -103,7 +102,7 @@ public class QuadTree {
      * @return the boolean
      */
     public boolean inBoundary(Point2D.Double p, QuadTree qt, double radius) {
-        return (Double.compare(p.x-radius, qt.topLeft.x) >= 0 && Double.compare(p.x+radius, qt.botRight.x) <= 0 && Double.compare(p.y-radius, qt.topLeft.y) >= 0 && Double.compare(p.y+radius, qt.botRight.y) <= 0);
+        return (Double.compare(p.x-radius, qt.topLeft.x) > 0 && Double.compare(p.x+radius, qt.botRight.x) < 0 && Double.compare(p.y-radius, qt.topLeft.y) > 0 && Double.compare(p.y+radius, qt.botRight.y) < 0);
     }
 
     /**
@@ -166,7 +165,7 @@ public class QuadTree {
         }
 
         if (tree.getNode() != null) {
-            if(tree.getNode().getPos().x <= p.x + radius && tree.getNode().getPos().x >= p.x - radius && tree.getNode().getPos().y >= p.y - radius && tree.getNode().getPos().y <= p.y + radius) {
+            if (Math.sqrt(Math.pow((p.x - tree.getNode().getX()), 2) + Math.pow((p.y - tree.getNode().getY()), 2)) <= radius) {
                 found.add(tree.getNode());
             }
         }
@@ -190,7 +189,6 @@ public class QuadTree {
 
         if (tree.getNode() != null) {
             found.add(tree.getNode());
-            System.out.println(tree.getNode());
         }
 
         traverse(found, tree.getTopLeftTree());
