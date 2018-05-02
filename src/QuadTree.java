@@ -1,4 +1,5 @@
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,8 +49,8 @@ public class QuadTree {
         }
 
         //find the correct sub QuadTree for the junctionNode
-        if ((topLeft.x + botRight.x) / 2 >= junctionNode.getPos().x) {
-            if ((topLeft.y + botRight.y) / 2 >= junctionNode.getPos().y) {
+        if (Double.compare((topLeft.x + botRight.x) / 2, junctionNode.getPos().x) >= 0) {
+            if (Double.compare((topLeft.y + botRight.y) / 2, junctionNode.getPos().y) >= 0) {
                 if (topLeftTree == null) {
                     topLeftTree = new QuadTree(
                             new Point2D.Double(topLeft.x, topLeft.y),
@@ -65,7 +66,7 @@ public class QuadTree {
                 botLeftTree.add(junctionNode);
             }
         } else {
-            if ((topLeft.y + botRight.y) / 2 >= junctionNode.getPos().y) {
+            if (Double.compare((topLeft.y + botRight.y) / 2, junctionNode.getPos().y) >= 0) {
                 if (topRightTree == null) {
                     topRightTree = new QuadTree(
                             new Point2D.Double((topLeft.x + botRight.x) / 2, topLeft.y),
@@ -90,10 +91,7 @@ public class QuadTree {
      * @return the boolean
      */
     public boolean inBoundary(Point2D.Double p) {
-        return (p.x >= topLeft.x &&
-                p.x <= botRight.x &&
-                p.y >= topLeft.y &&
-                p.y <= botRight.y);
+        return inBoundary(p, this, 0);
     }
 
     /**
@@ -105,10 +103,7 @@ public class QuadTree {
      * @return the boolean
      */
     public boolean inBoundary(Point2D.Double p, QuadTree qt, double radius) {
-        return (p.x - radius >= qt.topLeft.x &&
-                p.x + radius <= qt.botRight.x &&
-                p.y - radius >= qt.topLeft.y &&
-                p.y + radius <= qt.botRight.y);
+        return (Double.compare(p.x-radius, qt.topLeft.x) >= 0 && Double.compare(p.x+radius, qt.botRight.x) <= 0 && Double.compare(p.y-radius, qt.topLeft.y) >= 0 && Double.compare(p.y+radius, qt.botRight.y) <= 0);
     }
 
     /**
@@ -171,7 +166,7 @@ public class QuadTree {
         }
 
         if (tree.getNode() != null) {
-            if (tree.getNode().getPos().x >= p.x - radius && tree.getNode().getPos().x <= p.x + radius && tree.getNode().getPos().y <= p.y + radius && tree.getNode().getPos().y >= p.y - radius) {
+            if(tree.getNode().getPos().x <= p.x + radius && tree.getNode().getPos().x >= p.x - radius && tree.getNode().getPos().y >= p.y - radius && tree.getNode().getPos().y <= p.y + radius) {
                 found.add(tree.getNode());
             }
         }
@@ -195,7 +190,7 @@ public class QuadTree {
 
         if (tree.getNode() != null) {
             found.add(tree.getNode());
-            System.out.println(tree.getNode().toString());
+            System.out.println(tree.getNode());
         }
 
         traverse(found, tree.getTopLeftTree());
@@ -203,6 +198,11 @@ public class QuadTree {
         traverse(found, tree.getBotLeftTree());
         traverse(found, tree.getBotRightTree());
     }
+
+    public void traverse() {
+        traverse(new ArrayList<>(), this);
+    }
+
 
     /**
      * Gets correct interval with given point and interval
@@ -218,13 +218,13 @@ public class QuadTree {
         QuadTree botLeft = qt.botLeftTree;
         QuadTree botRight = qt.botRightTree;
 
-        if (inBoundary(p, topLeft, radius)) {
+        if (topLeft != null && inBoundary(p, topLeft, radius)) {
             return getInterval(p, topLeft, radius);
-        } else if (inBoundary(p, topRight, radius)) {
+        } else if (topRight != null && inBoundary(p, topRight, radius)) {
             return getInterval(p, topRight, radius);
-        } else if (inBoundary(p, botLeft, radius)) {
+        } else if (botLeft != null && inBoundary(p, botLeft, radius)) {
             return getInterval(p, botLeft, radius);
-        } else if (inBoundary(p, botRight, radius)) {
+        } else if (botRight != null && inBoundary(p, botRight, radius)) {
             return getInterval(p, botRight, radius);
         } else {
             return qt;
