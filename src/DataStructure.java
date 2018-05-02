@@ -40,7 +40,7 @@ public interface DataStructure {
      */
     default void loadData(String path) {
         try (Scanner s = new Scanner(new File(System.getProperty("user.dir") + path), "UTF-8")) {
-            s.useDelimiter(";|\r\n");
+            s.useDelimiter("[;\n]");
             while (s.hasNext()) {
 
                 String value = s.next();
