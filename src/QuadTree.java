@@ -205,51 +205,6 @@ public class QuadTree {
     }
 
     /**
-     * Search node.
-     *
-     * @param p the p
-     * @return the node
-     */
-    public JunctionNode search(Point2D.Double p) {
-        if (!inBoundary(p)) return null;
-
-        if (this.n != null) {
-            return n;
-        }
-
-        if ((topLeft.x + botRight.x) / 2 >= p.x) {
-            if ((topLeft.y + botRight.y) / 2 >= p.y) {
-                if (topLeftTree == null) {
-                    return null;
-                }
-
-                return topLeftTree.search(p);
-            } else {
-                if (botLeftTree == null) {
-                    return null;
-                }
-
-                return botLeftTree.search(p);
-            }
-        } else {
-            if ((topLeft.y + botRight.y) / 2 >= p.y) {
-                if (topRightTree == null) {
-                    return null;
-                }
-
-                return topRightTree.search(p);
-            } else {
-                if (botRightTree == null) {
-                    return null;
-                }
-
-                return botRightTree.search(p);
-            }
-        }
-
-    }
-
-    /**
      * Gets correct interval with given point and interval
      *
      * @param p      the p
