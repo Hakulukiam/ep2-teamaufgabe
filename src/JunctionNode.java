@@ -15,6 +15,14 @@ class JunctionNode {
         return pos;
     }
 
+    public double getX( ) {
+        return pos.x;
+    }
+
+    public double getY() {
+        return pos.y;
+    }
+
     public String getType() {
         return type;
     }
