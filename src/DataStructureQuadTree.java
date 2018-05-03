@@ -15,7 +15,7 @@ public class DataStructureQuadTree implements DataStructure {
     /**
      * The Junctions.
      */
-    public QuadTree junctions = new QuadTree(new Point2D.Double(-20023.816080, -14666.861162), new Point2D.Double(20032.054293, 12330.232858));
+    public QuadTree junctions = new QuadTree(new Point2D.Double(-21000, -15000), new Point2D.Double(21000, 13000));
 
     /**
      * Instantiates a new Quad tree data structure.
