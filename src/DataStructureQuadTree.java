@@ -99,6 +99,8 @@ public class DataStructureQuadTree implements DataStructure {
                 } else if (tree.getNode().getType().equals("TRAINSTATION")) {
                     inRange[1]++;
                 }
+            } else {
+                return;
             }
         }
 
