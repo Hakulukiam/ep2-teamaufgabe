@@ -46,18 +46,31 @@ public class DataStructureQuadTree implements DataStructure {
      */
     @Override
     public int AwTinRange(double r, int n) {
-        int ret = 0;
-        List<JunctionNode> found = new ArrayList<>();
-        junctions.traverse(found, junctions);
+        return AwtInRange(r, n, junctions);
+    }
 
-        for (JunctionNode item : found) {
-            if (item.getType().equals("AIRPORT")) {
-                if (this.inRange(item.getPos(), r)[1] >= n) {
-                    ret++;
-                }
+    /**
+     * Gets Number of Airports and Trainstations in Range
+     *
+     */
+    private int AwtInRange(double r, int n, QuadTree tree) {
+        if(tree == null) {
+            return 0;
+        }
+
+        int ret = 0;
+
+        if(tree.getNode() != null && tree.getNode().getType().equals("AIRPORT")) {
+            if(this.inRange(tree.getNode().getPos(), r)[1] >= n) {
+                ret++;
             }
         }
-        return ret;
+
+        return ret + AwtInRange(r, n, tree.getTopLeftTree())
+        + AwtInRange(r, n, tree.getTopRightTree())
+        + AwtInRange(r, n, tree.getBotLeftTree())
+        + AwtInRange(r, n, tree.getBotRightTree());
+
     }
 
     /**
@@ -68,20 +81,32 @@ public class DataStructureQuadTree implements DataStructure {
      */
     @Override
     public int[] inRange(Point2D.Double coords, double radius) {
-        int[] inRange = new int[2];
-        QuadTree t = junctions.getInterval(coords, junctions, radius);
-        List<JunctionNode> found = new ArrayList<>();
-        junctions.traverse(found, t, radius, coords);
+        int[] inRange = new int[2]; //index 0 for airports //index 1 for trainstations
+        QuadTree t = junctions.getInterval(coords, junctions, radius); //get quadtree with the correct boundaries
+        inRange(coords, radius, t, inRange);
+        return inRange;
+    }
 
-        for (JunctionNode item : found) {
-            if (item.getType().equals("AIRPORT")) {
-                inRange[0]++;
-            } else if (item.getType().equals("TRAINSTATION")) {
-                inRange[1]++;
+    private void inRange(Point2D.Double coords, double radius, QuadTree tree, int[] inRange) {
+        if(tree == null) {
+            return;
+        }
+
+        if(tree.getNode() != null) { //prüft ob der knoten einen wert hat
+            if(tree.isInRadius(coords, radius)) { //prüft, ob der knoten in der gegebenen koordinate + radius liegt
+                if (tree.getNode().getType().equals("AIRPORT")) {
+                    inRange[0]++;
+                } else if (tree.getNode().getType().equals("TRAINSTATION")) {
+                    inRange[1]++;
+                }
             }
         }
 
-        return inRange;
+        //prüft, welcher knoten besucht werden muss
+        inRange(coords, radius, tree.getTopLeftTree(), inRange);
+        inRange(coords, radius, tree.getTopRightTree(), inRange);
+        inRange(coords, radius, tree.getBotLeftTree(), inRange);
+        inRange(coords, radius, tree.getBotRightTree(), inRange);
     }
 
     /**

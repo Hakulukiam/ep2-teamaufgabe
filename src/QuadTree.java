@@ -3,8 +3,8 @@
  * Mold Florian
  * Ruckenbauer Markus
  */
+
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -107,8 +107,11 @@ public class QuadTree {
      * @return the boolean
      */
     public boolean inBoundary(Point2D.Double p, QuadTree qt, double radius) {
-        return (Double.compare(p.x-radius, qt.topLeft.x) > 0 && Double.compare(p.x+radius, qt.botRight.x) < 0 && Double.compare(p.y-radius, qt.topLeft.y) > 0 && Double.compare(p.y+radius, qt.botRight.y) < 0);
-    }
+        return (Double.compare(p.x - radius, qt.topLeft.x) >= 0 &&
+                Double.compare(p.x + radius, qt.botRight.x) <= 0 &&
+                Double.compare(p.y - radius, qt.topLeft.y) >= 0 &&
+                Double.compare(p.y + radius, qt.botRight.y) <= 0);
+        }
 
     /**
      * Gets node.
@@ -155,30 +158,16 @@ public class QuadTree {
         return botRightTree;
     }
 
-
     /**
-     * Traverse the tree
+     * checks if the point is in radius of current quadtree
      *
-     * @param found  the found
-     * @param tree   the tree
-     * @param radius the radius
-     * @param p      the p
      */
-    public void traverse(List<JunctionNode> found, QuadTree tree, double radius, Point2D.Double p) {
-        if (tree == null) {
-            return;
+    public boolean isInRadius(Point2D.Double p, double radius) {
+        if (Math.sqrt(Math.pow((p.x - this.getNode().getX()), 2) + Math.pow((p.y - this.getNode().getY()), 2)) <= radius) {
+            return true;
         }
 
-        if (tree.getNode() != null) {
-            if (Math.sqrt(Math.pow((p.x - tree.getNode().getX()), 2) + Math.pow((p.y - tree.getNode().getY()), 2)) <= radius) {
-                found.add(tree.getNode());
-            }
-        }
-
-        traverse(found, tree.getTopLeftTree(), radius, p);
-        traverse(found, tree.getTopRightTree(), radius, p);
-        traverse(found, tree.getBotLeftTree(), radius, p);
-        traverse(found, tree.getBotRightTree(), radius, p);
+        return false;
     }
 
     /**
@@ -202,13 +191,9 @@ public class QuadTree {
         traverse(found, tree.getBotRightTree());
     }
 
-    public void traverse() {
-        traverse(new ArrayList<>(), this);
-    }
-
-
     /**
-     * Gets correct interval with given point and interval
+     * Gets correct interval where the given point is located
+     * recursive call in four directions
      *
      * @param p      the p
      * @param qt     the qt
@@ -216,11 +201,16 @@ public class QuadTree {
      * @return the interval
      */
     public QuadTree getInterval(Point2D.Double p, QuadTree qt, double radius) {
+        if(qt == null) { //abbruchbedingung
+            return null;
+        }
+
         QuadTree topLeft = qt.topLeftTree;
         QuadTree topRight = qt.topRightTree;
         QuadTree botLeft = qt.botLeftTree;
         QuadTree botRight = qt.botRightTree;
 
+        //durchsucht alle kindknoten des quadtree und wenn keiner passt wird der aktuelle zurückgegeben
         if (topLeft != null && inBoundary(p, topLeft, radius)) {
             return getInterval(p, topLeft, radius);
         } else if (topRight != null && inBoundary(p, topRight, radius)) {
