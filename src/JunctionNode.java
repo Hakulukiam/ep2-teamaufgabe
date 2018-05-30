@@ -3,9 +3,10 @@
  * Mold Florian
  * Ruckenbauer Markus
  */
+
 import java.awt.geom.Point2D;
 
-class JunctionNode {
+public class JunctionNode {
     private Point2D.Double pos;
     private String type;
     private String value;
@@ -37,7 +38,7 @@ class JunctionNode {
      *
      * @return
      */
-    public double getX( ) {
+    public double getX() {
         return pos.x;
     }
 

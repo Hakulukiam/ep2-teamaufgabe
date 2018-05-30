@@ -10,7 +10,17 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public interface DataStructure {
+    /**
+     * @param input Node
+     * @return True on success
+     */
     Boolean add(JunctionNode input);
+
+
+    /**
+     * @return Type of Datasource
+     */
+    String getType();
 
     /**
      * Gets Number of Airports and Trainstations in Range radius from Point

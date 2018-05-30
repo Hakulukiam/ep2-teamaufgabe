@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class DataStructureArrayList implements DataStructure {
-    public String type;
+    private String type;
     private ArrayList<JunctionNode> junctions = new ArrayList<>();
 
     public DataStructureArrayList(String pathtofile) {
@@ -19,6 +19,11 @@ public class DataStructureArrayList implements DataStructure {
     @Override
     public Boolean add(JunctionNode element) {
         return this.junctions.add(element);
+    }
+
+    @Override
+    public String getType() {
+        return this.type;
     }
 
     /**

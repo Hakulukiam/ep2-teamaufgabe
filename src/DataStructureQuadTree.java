@@ -1,6 +1,5 @@
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Autors:
@@ -11,11 +10,11 @@ public class DataStructureQuadTree implements DataStructure {
     /**
      * The Type.
      */
-    public String type;
+    private String type;
     /**
      * The Junctions.
      */
-    public QuadTree junctions = new QuadTree(new Point2D.Double(-21000, -15000), new Point2D.Double(21000, 13000));
+    private QuadTree junctions = new QuadTree(new Point2D.Double(-21000, -15000), new Point2D.Double(21000, 13000));
 
     /**
      * Instantiates a new Quad tree data structure.
@@ -38,6 +37,11 @@ public class DataStructureQuadTree implements DataStructure {
         return true;
     }
 
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
     /**
      * Calculates Number of Airports with >=n Trainstations in Range of r
      *
@@ -51,25 +55,24 @@ public class DataStructureQuadTree implements DataStructure {
 
     /**
      * Gets Number of Airports and Trainstations in Range
-     *
      */
     private int AwtInRange(double r, int n, QuadTree tree) {
-        if(tree == null) {
+        if (tree == null) {
             return 0;
         }
 
         int ret = 0;
 
-        if(tree.getNode() != null && tree.getNode().getType().equals("AIRPORT")) {
-            if(this.inRange(tree.getNode().getPos(), r)[1] >= n) {
+        if (tree.getNode() != null && tree.getNode().getType().equals("AIRPORT")) {
+            if (this.inRange(tree.getNode().getPos(), r)[1] >= n) {
                 ret++;
             }
         }
 
         return ret + AwtInRange(r, n, tree.getTopLeftTree())
-        + AwtInRange(r, n, tree.getTopRightTree())
-        + AwtInRange(r, n, tree.getBotLeftTree())
-        + AwtInRange(r, n, tree.getBotRightTree());
+                + AwtInRange(r, n, tree.getTopRightTree())
+                + AwtInRange(r, n, tree.getBotLeftTree())
+                + AwtInRange(r, n, tree.getBotRightTree());
 
     }
 
@@ -87,13 +90,21 @@ public class DataStructureQuadTree implements DataStructure {
         return inRange;
     }
 
+    /**
+     * inRange Helper for Quadtree
+     *
+     * @param coords
+     * @param radius
+     * @param tree
+     * @param inRange
+     */
     private void inRange(Point2D.Double coords, double radius, QuadTree tree, int[] inRange) {
-        if(tree == null) {
+        if (tree == null) {
             return;
         }
 
-        if(tree.getNode() != null) { //prüft ob der knoten einen wert hat
-            if(tree.isInRadius(coords, radius)) { //prüft, ob der knoten in der gegebenen koordinate + radius liegt
+        if (tree.getNode() != null) { //prüft ob der knoten einen wert hat
+            if (tree.isInRadius(coords, radius)) { //prüft, ob der knoten in der gegebenen koordinate + radius liegt
                 if (tree.getNode().getType().equals("AIRPORT")) {
                     inRange[0]++;
                 } else if (tree.getNode().getType().equals("TRAINSTATION")) {

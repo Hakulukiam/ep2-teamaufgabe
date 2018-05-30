@@ -10,7 +10,7 @@ public class Aufgabe2 {
         String path = "/data/junctions.csv";
 
         DataStructureQuadTree data = new DataStructureQuadTree(path);
-        System.out.println("Using " + data.type + " as DataStructure.");
+        System.out.println("Using " + data.getType() + " as DataStructure.");
 
         new Umkreissuche(data);
     }

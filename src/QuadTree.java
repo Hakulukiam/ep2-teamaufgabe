@@ -94,7 +94,7 @@ public class QuadTree {
      * @param p the p
      * @return the boolean
      */
-    public boolean inBoundary(Point2D.Double p) {
+    private boolean inBoundary(Point2D.Double p) {
         return inBoundary(p, this, 0);
     }
 
@@ -106,12 +106,12 @@ public class QuadTree {
      * @param radius the radius
      * @return the boolean
      */
-    public boolean inBoundary(Point2D.Double p, QuadTree qt, double radius) {
+    private boolean inBoundary(Point2D.Double p, QuadTree qt, double radius) {
         return (Double.compare(p.x - radius, qt.topLeft.x) >= 0 &&
                 Double.compare(p.x + radius, qt.botRight.x) <= 0 &&
                 Double.compare(p.y - radius, qt.topLeft.y) >= 0 &&
                 Double.compare(p.y + radius, qt.botRight.y) <= 0);
-        }
+    }
 
     /**
      * Gets node.
@@ -160,7 +160,6 @@ public class QuadTree {
 
     /**
      * checks if the point is in radius of current quadtree
-     *
      */
     public boolean isInRadius(Point2D.Double p, double radius) {
         if (Math.sqrt(Math.pow((p.x - this.getNode().getX()), 2) + Math.pow((p.y - this.getNode().getY()), 2)) <= radius) {
@@ -201,7 +200,7 @@ public class QuadTree {
      * @return the interval
      */
     public QuadTree getInterval(Point2D.Double p, QuadTree qt, double radius) {
-        if(qt == null) { //abbruchbedingung
+        if (qt == null) { //abbruchbedingung
             return null;
         }
 

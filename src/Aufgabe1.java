@@ -11,7 +11,7 @@ public class Aufgabe1 {
 
         DataStructureArrayList data = new DataStructureArrayList(path);
 
-        System.out.println("Using " + data.type + " as DataStructure.");
+        System.out.println("Using " + data.getType() + " as DataStructure.");
 
         new Umkreissuche(data);
     }
